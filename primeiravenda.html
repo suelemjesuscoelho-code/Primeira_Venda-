@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PrimeiraVenda — Faça sua primeira venda na Kiwify ou Cakto</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF2D78;
+    --pink-dark: #e0205f;
+    --pink-light: #ff5a97;
+    --bg: #0d0d0d;
+    --card: #181818;
+    --card2: #1f1a1f;
+    --text: #ffffff;
+    --muted: #a0a0a0;
+    --radius: 18px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,45,120,0.12);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 18px; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .nav-logo-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .nav-logo span { color: var(--pink); }
+  .nav-btns { display: flex; gap: 10px; align-items: center; }
+  .btn-ghost {
+    background: rgba(255,255,255,0.07);
+    border: none; border-radius: 50px;
+    color: var(--text); font-size: 14px; font-weight: 600;
+    padding: 8px 18px; cursor: pointer;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-pink {
+    background: var(--pink);
+    border: none; border-radius: 50px;
+    color: #fff; font-size: 14px; font-weight: 700;
+    padding: 9px 20px; cursor: pointer;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: background 0.2s;
+  }
+  .btn-pink:hover { background: var(--pink-dark); }
+
+  /* HERO */
+  .hero {
+    padding: 60px 20px 40px;
+    text-align: center;
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,45,120,0.18) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,45,120,0.12);
+    border: 1px solid rgba(255,45,120,0.3);
+    border-radius: 50px; padding: 6px 16px;
+    font-size: 13px; font-weight: 600; color: var(--pink);
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--pink); border-radius: 50%; }
+  .hero h1 {
+    font-size: 38px; font-weight: 900; line-height: 1.1;
+    letter-spacing: -1.5px; margin-bottom: 18px;
+  }
+  .hero h1 em { color: var(--pink); font-style: normal; }
+  .hero-sub {
+    font-size: 16px; color: var(--muted); line-height: 1.6;
+    max-width: 340px; margin: 0 auto 36px;
+  }
+  .hero-ctas { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .btn-main {
+    background: var(--pink);
+    border: none; border-radius: 50px;
+    color: #fff; font-size: 16px; font-weight: 800;
+    padding: 16px 36px; cursor: pointer;
+    text-decoration: none; width: 100%; max-width: 320px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-main:hover { background: var(--pink-dark); transform: scale(1.02); }
+  .btn-outline {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.15); border-radius: 50px;
+    color: #fff; font-size: 15px; font-weight: 700;
+    padding: 14px 32px; cursor: pointer;
+    text-decoration: none; width: 100%; max-width: 320px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+
+  /* MOCKUP */
+  .mockup-wrap {
+    margin: 40px 20px 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,45,120,0.2);
+    padding: 18px;
+    overflow: hidden;
+  }
+  .mockup-bar {
+    display: flex; gap: 6px; margin-bottom: 14px;
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-inner {
+    background: #111; border-radius: 10px; padding: 16px;
+    font-size: 13px;
+  }
+  .mockup-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .mockup-icon {
+    width: 32px; height: 32px; border-radius: 8px; background: var(--pink);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 15px;
+  }
+  .mockup-label { font-size: 11px; color: var(--pink); font-weight: 700; letter-spacing: 0.5px; }
+  .mockup-title { font-size: 14px; font-weight: 700; }
+  .mockup-bar2 {
+    height: 6px; border-radius: 3px; background: var(--pink);
+    margin-top: 10px; width: 70%;
+  }
+  .mockup-stats {
+    display: flex; gap: 8px; margin-top: 12px;
+  }
+  .mockup-stat {
+    flex: 1; background: rgba(255,45,120,0.12); border-radius: 8px;
+    padding: 8px; text-align: center;
+  }
+  .mockup-stat-n { font-size: 16px; font-weight: 800; color: var(--pink); }
+  .mockup-stat-l { font-size: 10px; color: var(--muted); }
+
+  /* SECTIONS */
+  section { padding: 60px 20px; }
+  .sec-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--pink); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .sec-title {
+    font-size: 28px; font-weight: 900; line-height: 1.15;
+    letter-spacing: -1px; margin-bottom: 14px;
+  }
+  .sec-desc {
+    font-size: 15px; color: var(--muted); line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .sec-title em { color: var(--pink); font-style: normal; }
+
+  /* FEATURE CARDS */
+  .feature-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    margin-bottom: 14px;
+  }
+  .feat-icon {
+    width: 50px; height: 50px; border-radius: 14px;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 16px;
+  }
+  .feat-label {
+    font-size: 11px; font-weight: 700; color: var(--pink);
+    letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .feat-title { font-size: 19px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+  .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* STEPS */
+  .step-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    margin-bottom: 14px;
+  }
+  .step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .step-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .step-meta {}
+  .step-num { font-size: 11px; font-weight: 700; color: var(--pink); letter-spacing: 1px; text-transform: uppercase; }
+  .step-title { font-size: 18px; font-weight: 800; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* DEMO VISUAL */
+  .demo-box {
+    background: #fff; border-radius: 12px; padding: 14px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .demo-header { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 10px; }
+  .demo-row {
+    display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .demo-thumb {
+    width: 64px; height: 64px; border-radius: 8px;
+    background: #eee; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .demo-chip {
+    background: var(--pink); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 4px 10px;
+    border-radius: 50px; display: inline-block; margin-bottom: 8px;
+  }
+  .demo-bar-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .demo-bar-item {
+    background: #f0f0f0; border-radius: 50px;
+    font-size: 11px; color: #333; padding: 4px 10px;
+  }
+  .demo-bar-item.active { background: var(--pink); color: #fff; }
+
+  /* PRICE */
+  .price-section { text-align: center; padding: 60px 20px; }
+  .price-card {
+    background: linear-gradient(145deg, #2a0f1e, #1a0d1a);
+    border: 2px solid rgba(255,45,120,0.4);
+    border-radius: var(--radius);
+    padding: 30px 24px;
+    margin-top: 32px;
+    text-align: left;
+  }
+  .price-top { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .price-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .price-badge-row {
+    font-size: 11px; font-weight: 700; color: var(--pink);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .price-name { font-size: 22px; font-weight: 900; }
+  .price-old {
+    font-size: 15px; color: var(--muted);
+    text-decoration: line-through; margin-bottom: 6px;
+  }
+  .price-now {
+    display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px;
+  }
+  .price-cur { font-size: 18px; font-weight: 700; color: var(--pink); }
+  .price-val { font-size: 52px; font-weight: 900; line-height: 1; }
+  .price-period { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+  .price-installment {
+    font-size: 14px; color: var(--muted); margin-bottom: 4px;
+  }
+  .price-installment strong { color: var(--text); }
+  .price-coupon {
+    font-size: 14px; color: var(--muted);
+    text-decoration: underline; cursor: pointer; margin-bottom: 24px; display: block;
+  }
+  .price-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 20px 0;
+  }
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .checklist li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 15px; color: var(--text);
+  }
+  .check-icon {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: rgba(255,45,120,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 13px; color: var(--pink);
+  }
+  .btn-buy {
+    width: 100%; background: var(--pink);
+    border: none; border-radius: 50px;
+    color: #fff; font-size: 17px; font-weight: 800;
+    padding: 18px; cursor: pointer;
+    text-decoration: none;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-buy:hover { background: var(--pink-dark); transform: scale(1.01); }
+
+  /* PAYMENT ICONS */
+  .payment-icons {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 14px; flex-wrap: wrap;
+  }
+  .pay-icon {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 6px 12px;
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  /* WHATSAPP FLOAT */
+  .wa-float {
+    position: fixed; bottom: 24px; right: 20px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none; font-size: 26px;
+    transition: transform 0.2s;
+  }
+  .wa-float:hover { transform: scale(1.08); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 32px 20px 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-logo {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 16px; font-weight: 800; margin-bottom: 10px;
+  }
+  .footer-logo span { color: var(--pink); }
+  .footer-copy { font-size: 13px; color: var(--muted); }
+
+  /* SOCIAL PROOF */
+  .proof-strip {
+    display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none;
+    padding-bottom: 4px; margin: 0 -4px;
+  }
+  .proof-card {
+    flex-shrink: 0; background: var(--card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 16px 16px 14px;
+    width: 220px;
+  }
+  .proof-stars { color: #FFD700; font-size: 13px; margin-bottom: 8px; }
+  .proof-text { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .proof-name { font-size: 13px; font-weight: 700; }
+
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 32px; }
+    .sec-title { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">💰</div>
+    Primeira<span>Venda</span>
+  </div>
+  <div class="nav-btns">
+    <a href="https://wa.me/5565992750011" target="_blank" class="btn-ghost">Entrar</a>
+    <a href="https://pay.cakto.com.br/59egida_1144815" target="_blank" class="btn-pink">Adquirir ↓</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">#1 Método para fazer sua primeira venda online</div>
+  <h1>Faça sua primeira venda <em>em até 7 dias</em> na Kiwify ou Cakto!</h1>
+  <p class="hero-sub">O que levaria meses tentando sozinho, o nosso método entrega em dias. Sem experiência, sem audiência, do zero.</p>
+  <div class="hero-ctas">
+    <a href="https://pay.cakto.com.br/59egida_1144815" target="_blank" class="btn-main">Quero minha primeira venda →</a>
+    <a href="#como-funciona" class="btn-outline">Saber mais</a>
+  </div>
+</div>
+
+<!-- MOCKUP -->
+<div class="mockup-wrap">
+  <div class="mockup-bar">
+    <div class="mockup-dot" style="background:#ff5f57"></div>
+    <div class="mockup-dot" style="background:#ffbd2e"></div>
+    <div class="mockup-dot" style="background:#28c840"></div>
+  </div>
+  <div class="mockup-inner">
+    <div class="mockup-row">
+      <div class="mockup-icon">📲</div>
+      <div>
+        <div class="mockup-label">Kiwify · Cakto</div>
+        <div class="mockup-title">Painel de vendas</div>
+      </div>
+    </div>
+    <div class="mockup-bar2"></div>
+    <div class="mockup-stats">
+      <div class="mockup-stat">
+        <div class="mockup-stat-n">R$ 0</div>
+        <div class="mockup-stat-l">Antes</div>
+      </div>
+      <div class="mockup-stat">
+        <div class="mockup-stat-n" style="color:#28c840">R$ 297</div>
+        <div class="mockup-stat-l">Depois</div>
+      </div>
+      <div class="mockup-stat">
+        <div class="mockup-stat-n">7 dias</div>
+        <div class="mockup-stat-l">Prazo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATAFORMAS -->
+<section style="text-align:center; padding: 40px 20px 20px;">
+  <p style="font-size:12px; color:var(--muted); margin-bottom:14px; letter-spacing:1px;">FUNCIONA NAS PRINCIPAIS PLATAFORMAS</p>
+  <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+    <div class="pay-icon">🥝 Kiwify</div>
+    <div class="pay-icon">🌵 Cakto</div>
+    <div class="pay-icon">🟢 Hotmart</div>
+    <div class="pay-icon">📦 Braip</div>
+  </div>
+</section>
+
+<!-- O QUE VOCÊ RECEBE -->
+<section id="como-funciona">
+  <div class="sec-label">O que você recebe</div>
+  <h2 class="sec-title">Tudo que você precisa para <em>vender do zero.</em></h2>
+  <p class="sec-desc">Uma metodologia completa para sair do R$ 0 e chegar na primeira venda em dias, mesmo sem ter produto próprio.</p>
+
+  <div class="feature-card">
+    <div class="feat-icon">🎯</div>
+    <div class="feat-label">Método</div>
+    <h3 class="feat-title">Passo a passo para vender como afiliado</h3>
+    <p class="feat-desc">Do cadastro na Kiwify ou Cakto até a primeira comissão no seu bolso. Sem enrolação, sem teoria inútil.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feat-icon">📱</div>
+    <div class="feat-label">Tráfego</div>
+    <h3 class="feat-title">Como atrair compradores sem gastar nada</h3>
+    <p class="feat-desc">Estratégias gratuitas de divulgação que funcionam no Instagram, WhatsApp e TikTok — mesmo com poucos seguidores.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feat-icon">💬</div>
+    <div class="feat-label">Mensagens</div>
+    <h3 class="feat-title">Scripts prontos para fechar vendas</h3>
+    <p class="feat-desc">Copie e cole as mensagens que usamos para converter curiosos em compradores. Funciona no WhatsApp e DM.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feat-icon">🎁</div>
+    <div class="feat-label">Bônus</div>
+    <h3 class="feat-title">Pack de artes e legendas prontas</h3>
+    <p class="feat-desc">Material já montado para você postar agora e gerar interesse nos seus produtos. Zero design necessário.</p>
+  </div>
+
+  <a href="https://pay.cakto.com.br/59egida_1144815" target="_blank" class="btn-main" style="max-width:100%; margin-top:8px;">Quero usar o método →</a>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section style="background: #111; margin: 0 -0px; padding: 60px 20px;">
+  <div class="sec-label">Como funciona</div>
+  <h2 class="sec-title">Em 3 passos você faz <em>sua primeira venda.</em></h2>
+  <p class="sec-desc">Você sai do zero, escolhe um produto, divulga do jeito certo e recebe sua comissão direto na conta.</p>
+
+  <div class="step-card">
+    <div style="background:#fff; border-radius:10px; padding:14px; margin-bottom:16px;">
+      <div style="font-size:11px; font-weight:700; color:#111; margin-bottom:8px;">📋 Escolhendo o produto</div>
+      <div style="display:flex; gap:8px;">
+        <div style="flex:1; background:#f5f5f5; border-radius:8px; padding:8px; font-size:11px; color:#333;">
+          <div style="font-weight:700; margin-bottom:3px;">Produto A</div>
+          <div style="color:#888;">Comissão: 40%</div>
+          <div style="color:var(--pink); font-weight:700;">R$ 25 / venda</div>
+        </div>
+        <div style="flex:1; background:rgba(255,45,120,0.1); border:1px solid var(--pink); border-radius:8px; padding:8px; font-size:11px; color:#333;">
+          <div style="font-weight:700; margin-bottom:3px; color:#111;">Produto B ✓</div>
+          <div style="color:#888;">Comissão: 60%</div>
+          <div style="color:var(--pink); font-weight:700;">R$ 60 / venda</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-head">
+      <div class="step-icon">🔍</div>
+      <div class="step-meta">
+        <div class="step-num">Passo 01</div>
+        <div class="step-title">Escolhe o produto certo</div>
+      </div>
+    </div>
+    <p class="step-desc">Aprende a identificar produtos com alta conversão na Kiwify e Cakto. Sem gastar dinheiro para criar nada.</p>
+  </div>
+
+  <div class="step-card">
+    <div style="background:#fff; border-radius:10px; padding:14px; margin-bottom:16px;">
+      <div style="font-size:11px; font-weight:700; color:#111; margin-bottom:8px;">📤 Divulgação ativa</div>
+      <div class="demo-bar-row">
+        <div class="demo-bar-item active">Instagram</div>
+        <div class="demo-bar-item active">WhatsApp</div>
+        <div class="demo-bar-item">TikTok</div>
+        <div class="demo-bar-item">Stories</div>
+      </div>
+    </div>
+    <div class="step-head">
+      <div class="step-icon">📣</div>
+      <div class="step-meta">
+        <div class="step-num">Passo 02</div>
+        <div class="step-title">Divulga sem gastar</div>
+      </div>
+    </div>
+    <p class="step-desc">Com scripts prontos e estratégias gratuitas, você divulga para as pessoas certas e gera interesse real.</p>
+  </div>
+
+  <div class="step-card">
+    <div style="background:#fff; border-radius:10px; padding:14px; margin-bottom:16px;">
+      <div style="font-size:11px; font-weight:700; color:#111; margin-bottom:8px;">💳 Pagamento recebido</div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="flex:1;">
+          <div style="font-size:10px; color:#888;">Comissão recebida</div>
+          <div style="font-size:18px; font-weight:800; color:#28c840;">+ R$ 60,00</div>
+          <div style="font-size:10px; color:#888;">Hoje • 14:32</div>
+        </div>
+        <div style="background:rgba(40,200,100,0.1); border-radius:8px; padding:8px 12px; font-size:12px; color:#28c840; font-weight:700;">✓ Aprovado</div>
+      </div>
+    </div>
+    <div class="step-head">
+      <div class="step-icon">🚀</div>
+      <div class="step-meta">
+        <div class="step-num">Passo 03</div>
+        <div class="step-title">Recebe sua comissão</div>
+      </div>
+    </div>
+    <p class="step-desc">A venda é feita, a plataforma processa e você recebe direto na sua conta bancária. Simples assim.</p>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section>
+  <div class="sec-label">Veja na prática</div>
+  <h2 class="sec-title">Quem aplicou <em>já está vendendo.</em></h2>
+  <p class="sec-desc" style="margin-bottom:24px;">Resultados reais de pessoas que saíram do zero.</p>
+  <div class="proof-strip">
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-text">"Fiz minha primeira venda no 5º dia seguindo o passo a passo. Não acreditei quando vi o dinheiro na conta!"</p>
+      <div class="proof-name">Ana Lima · Kiwify</div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-text">"Os scripts de WhatsApp são ouro. Usei e fechei 3 vendas na primeira semana sem gastar nada com anúncio."</p>
+      <div class="proof-name">Carlos M. · Cakto</div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-text">"Tentei por meses sozinha e não saía do zero. Com o método, vendi em menos de uma semana. Incrível!"</p>
+      <div class="proof-name">Fernanda S. · Kiwify</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREÇO -->
+<section class="price-section" id="plano">
+  <div class="sec-label">Plano</div>
+  <h2 class="sec-title">Pare de tentar sozinho.<br><em>Sua primeira venda começa aqui.</em></h2>
+  <p class="sec-desc">Um único acesso libera o método completo, scripts prontos, pack de artes e suporte via WhatsApp.</p>
+
+  <div class="price-card">
+    <div class="price-top">
+      <div class="price-icon">💰</div>
+      <div>
+        <div class="price-badge-row">Acesso total · Pagamento único</div>
+        <div class="price-name">Acesso Completo</div>
+      </div>
+    </div>
+
+    <div class="price-old">De R$ 97,00</div>
+    <div class="price-now">
+      <span class="price-cur">R$</span>
+      <span class="price-val">25</span>
+      <span style="font-size:28px; font-weight:900">,00</span>
+    </div>
+    <p class="price-period">pagamento único</p>
+    <p class="price-installment">ou no cartão em <strong>até 12x de R$ 2,08</strong></p>
+    <div class="price-divider"></div>
+
+    <ul class="checklist">
+      <li><div class="check-icon">✓</div>Método passo a passo para vender</li>
+      <li><div class="check-icon">✓</div>Estratégias de divulgação gratuita</li>
+      <li><div class="check-icon">✓</div>Scripts prontos para WhatsApp e DM</li>
+      <li><div class="check-icon">✓</div>Pack de artes e legendas prontas</li>
+      <li><div class="check-icon">✓</div>Como escolher os melhores produtos</li>
+      <li><div class="check-icon">✓</div>Suporte direto via WhatsApp</li>
+      <li><div class="check-icon">✓</div>Acesso vitalício ao conteúdo</li>
+      <li><div class="check-icon">✓</div>Atualizações gratuitas</li>
+    </ul>
+
+    <a href="https://pay.cakto.com.br/59egida_1144815" target="_blank" class="btn-buy">Quero o Acesso Completo →</a>
+
+    <div class="payment-icons" style="margin-top:18px;">
+      <div class="pay-icon">⚡ Pix</div>
+      <div class="pay-icon">💳 Cartão</div>
+      <div class="pay-icon">🔒 Compra segura</div>
+    </div>
+    <p style="text-align:center; font-size:12px; color:var(--muted); margin-top:14px;">🔒 Pagamento 100% seguro via Cakto</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div style="width:30px; height:30px; border-radius:8px; background:var(--pink); display:flex; align-items:center; justify-content:center; font-size:14px;">💰</div>
+    Primeira<span>Venda</span>
+  </div>
+  <p class="footer-copy">© 2026 PrimeiraVenda · Todos os direitos reservados</p>
+  <p style="font-size:12px; color:var(--muted); margin-top:6px;">Dúvidas? Fale no WhatsApp: +55 65 9275-0011</p>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5565992750011" target="_blank" class="wa-float" title="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.987-1.412A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.952 7.952 0 01-4.318-1.274l-.31-.184-3.212.91.864-3.117-.202-.32A7.95 7.95 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
+  </svg>
+</a>
+
+</body>
+</html>
